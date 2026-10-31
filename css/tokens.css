@@ -1,0 +1,134 @@
+/* ==========================================================================
+   tokens.css  -  ALL the colors, fonts and sizes live here.
+
+   Want a different look? Change a value in this file and every part of the
+   app updates. Nothing else in the project has a hard-coded color.
+
+   The theme is chosen by  <html data-theme="dark">  or  data-theme="light".
+   (js/ui/theme.js flips that switch.)
+   ========================================================================== */
+
+:root {
+  /* Fonts: system fonts only, so the app works offline with no downloads. */
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-code: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+  /* Type scale (rem = relative to the browser's base size). */
+  --fs-small: 0.8125rem;
+  --fs-base: 0.9375rem;
+  --fs-large: 1.125rem;
+  --fs-code: 0.875rem;
+
+  /* Spacing and shape. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --files-w: 236px;
+  --cheat-w: 400px;
+}
+
+/* --------------------------------------------------------------------------
+   DARK MODE (default): dark gray surfaces + forest green.
+   -------------------------------------------------------------------------- */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #1c1e1f;
+  --surface: #242729;
+  --surface-raised: #2c3033;
+  --border: #3a3f42;
+  --text: #e3e6e3;          /* soft off-white: easier on the eyes than pure white */
+  --text-muted: #a4aba6;
+  --focus: #5fcf7a;
+
+  --accent: #1f7a35;        /* forest green (button fill) */
+  --on-accent: #ffffff;
+  --accent-text: #5fcf7a;   /* green for text/links on dark */
+  --danger: #b3342c;
+  --on-danger: #ffffff;
+  --install-bg: transparent;
+  --install-fg: #5fcf7a;
+  --install-border: #2ea043;
+
+  /* Difficulty levels (1 = easiest ... 4 = hardest): tinted background + text. */
+  --lvl1-bg: #1f3a28;  --lvl1-fg: #6fd68a;
+  --lvl2-bg: #1f2f4d;  --lvl2-fg: #85aef7;
+  --lvl3-bg: #403318;  --lvl3-fg: #e8b64a;
+  --lvl4-bg: #472622;  --lvl4-fg: #f08a82;
+
+  /* Importance tags. */
+  --imp-must-bg: #1f7a35;   --imp-must-fg: #ffffff;
+  --imp-good-bg: #2c3033;   --imp-good-fg: #e3e6e3;
+  --imp-nice-bg: transparent; --imp-nice-fg: #a4aba6;
+
+  /* Code and console. */
+  --code-bg: #171a1b;
+  --code-text: #e3e6e3;
+  --console-err: #f08a82;
+  --console-info: #a4aba6;
+
+  --brand-strip: linear-gradient(90deg, #1f7a35, #2ea043);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   LIGHT MODE: mostly white, with our "block colors" (Blue, Red, Yellow,
+   Orange, Green) used for the strip, buttons and tags.
+   -------------------------------------------------------------------------- */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #ffffff;
+  --surface: #f3f4f6;
+  --surface-raised: #ffffff;
+  --border: #dadce0;
+  --text: #202124;
+  --text-muted: #5f6368;
+  --focus: #1a73e8;
+
+  --accent: #188038;        /* green */
+  --on-accent: #ffffff;
+  --accent-text: #137333;
+  --danger: #d93025;        /* red */
+  --on-danger: #ffffff;
+  --install-bg: #fa7b17;    /* orange */
+  --install-fg: #202124;
+  --install-border: #fa7b17;
+
+  --lvl1-bg: #e6f4ea;  --lvl1-fg: #0d652d;   /* green  */
+  --lvl2-bg: #e8f0fe;  --lvl2-fg: #174ea6;   /* blue   */
+  --lvl3-bg: #fef3d1;  --lvl3-fg: #7a4a00;   /* yellow */
+  --lvl4-bg: #fce8e6;  --lvl4-fg: #a50e0e;   /* red    */
+
+  --imp-must-bg: #1a73e8;   --imp-must-fg: #ffffff;
+  --imp-good-bg: #e8f0fe;   --imp-good-fg: #174ea6;
+  --imp-nice-bg: transparent; --imp-nice-fg: #5f6368;
+
+  --code-bg: #f8f9fa;
+  --code-text: #202124;
+  --console-err: #c5221f;
+  --console-info: #5f6368;
+
+  /* The block-color strip under the header. */
+  --brand-strip: linear-gradient(
+    90deg,
+    #4285f4 0 20%,
+    #ea4335 20% 40%,
+    #fbbc04 40% 60%,
+    #fa7b17 60% 80%,
+    #34a853 80% 100%
+  );
+  --shadow: 0 8px 24px rgba(60, 64, 67, 0.25);
+}
+
+/* "Does this code run in the browser?" tags reuse the level colors. */
+:root {
+  --ok-bg: var(--lvl1-bg);    --ok-fg: var(--lvl1-fg);
+  --warn-bg: var(--lvl3-bg);  --warn-fg: var(--lvl3-fg);
+  --bad-bg: var(--lvl4-bg);   --bad-fg: var(--lvl4-fg);
+}

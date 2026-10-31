@@ -1,0 +1,105 @@
+/* ==========================================================================
+   base.css  -  the "reset" and plain-element styling (text, links, forms).
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font: var(--fs-base) / 1.6 var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* the panels scroll, not the page */
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+code,
+pre,
+textarea.code {
+  font-family: var(--font-code);
+  font-size: var(--fs-code);
+}
+
+a {
+  color: var(--accent-text);
+}
+
+/* Show a clear ring when someone navigates with the keyboard. */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button,
+select,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+input[type="text"],
+input[type="search"],
+select,
+textarea {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+/* The HTML "hidden" attribute must always win over our display rules. */
+[hidden] {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
