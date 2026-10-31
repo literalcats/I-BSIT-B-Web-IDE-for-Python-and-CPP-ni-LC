@@ -1,0 +1,21 @@
+{
+  "name": "bsit-code-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline-capable code editor (Python + C++) for I-BSIT-B, installable as a PWA.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "manifest": "node scripts/build.mjs --skip-vendor",
+    "start": "node scripts/serve.mjs",
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs",
+    "test": "node --test \"tests/**/*.test.mjs\""
+  },
+  "dependencies": {
+    "monaco-editor": "0.52.2",
+    "pyodide": "0.26.4"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

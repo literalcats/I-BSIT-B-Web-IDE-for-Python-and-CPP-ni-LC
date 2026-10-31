@@ -1,0 +1,64 @@
+%%{init: {"theme":"base","fontFamily":"Inter, DejaVu Sans, sans-serif","themeVariables":{"fontFamily":"Inter, DejaVu Sans, sans-serif","fontSize":"16px","primaryColor":"#ffffff","primaryTextColor":"#202124","primaryBorderColor":"#5f6368","lineColor":"#5f6368","clusterBkg":"#f8f9fa","clusterBorder":"#dadce0"},"flowchart":{"curve":"basis","htmlLabels":true,"nodeSpacing":40,"rankSpacing":50,"padding":14}}}%%
+flowchart TD
+  A(["<b>Open Code Lab</b><br/>web link or installed app"]):::start
+
+  subgraph WRITE["  1 · WRITE  "]
+    direction TB
+    B["<b>Pick or create a file</b><br/>.py = Python &nbsp;·&nbsp; .cpp = C++"]:::step
+    C["<b>Type your code</b><br/>in the editor"]:::step
+    H["<b>Need a start?</b><br/>Presets open a new commented file<br/>Cheat sheet: <i>Copy to editor</i>"]:::help
+    S[("<b>Auto-saved on this device</b><br/>IndexedDB · nothing is uploaded")]:::store
+  end
+
+  subgraph RUN["  2 · RUN  "]
+    direction TB
+    R{{"<b>Press Run</b><br/>Ctrl + Enter"}}:::go
+    L{"Which<br/>language?"}:::ask
+    PY["<b>Python 3.12</b><br/>Pyodide 0.26.4 = Python<br/>compiled to WebAssembly"]:::py
+    CP["<b>C++ (beginner subset)</b><br/>JSCPP 2.0.9 = C++ interpreter<br/>written in JavaScript"]:::cpp
+    W["<b>Runs in a background worker</b><br/>the page never freezes<br/>input() / cin read the <b>Input tab</b>"]:::step
+  end
+
+  subgraph SEE["  3 · SEE THE RESULT  "]
+    direction TB
+    E{"How did<br/>it end?"}:::ask
+    OK["<b>Finished</b><br/>text appears in Output"]:::ok
+    ER["<b>Error</b><br/>red message with the<br/>file name and line number"]:::bad
+    ST["<b>Endless loop?</b><br/>Stop button, or auto-stop<br/>after 15 seconds"]:::bad
+    FIX["<b>Fix it, then Run again</b><br/>back to step 1 — that is how you learn"]:::step
+  end
+
+  subgraph OFF["  WORKS OFFLINE  "]
+    direction LR
+    O1["<b>First visit</b><br/>the app saves<br/>its own files"]:::step --> O2["<b>Download offline files</b><br/>once, with internet"]:::step --> O3["<b>No internet?</b><br/>It still opens, runs Python<br/>and C++, and keeps your files"]:::ok
+  end
+
+  A --> B --> C
+  H -.-> C
+  C -. "after you stop typing" .-> S
+  C --> R --> L
+  L -- ".py" --> PY --> W
+  L -- ".cpp" --> CP --> W
+  W --> E
+  E -- "no errors" --> OK
+  E -- "crashed" --> ER
+  E -- "never ends" --> ST
+  ER --> FIX
+  ST --> FIX
+  OK --> FIX
+  FIX ~~~ OFF
+
+  N["<b>C++ limit:</b> JSCPP runs beginner C++ (loops, functions, arrays, pointers, cin/cout).<br/>Classes, vectors and templates need a real compiler such as g++. The cheat sheet tags each topic."]:::note
+  CP -.- N
+
+  classDef start fill:#1f7a35,stroke:#14532d,color:#ffffff,stroke-width:2px
+  classDef step fill:#ffffff,stroke:#5f6368,color:#202124
+  classDef help fill:#e8f0fe,stroke:#1a73e8,color:#174ea6
+  classDef store fill:#fef3d1,stroke:#e37400,color:#5f3a00,stroke-width:2px
+  classDef go fill:#188038,stroke:#0d652d,color:#ffffff,stroke-width:2px
+  classDef ask fill:#fff8e1,stroke:#f9ab00,color:#202124,stroke-width:2px
+  classDef py fill:#e8f0fe,stroke:#1a73e8,color:#174ea6,stroke-width:2px
+  classDef cpp fill:#fce8e6,stroke:#d93025,color:#a50e0e,stroke-width:2px
+  classDef ok fill:#e6f4ea,stroke:#188038,color:#0d652d,stroke-width:2px
+  classDef bad fill:#fce8e6,stroke:#d93025,color:#a50e0e
+  classDef note fill:#ffffff,stroke:#9aa0a6,color:#3c4043,stroke-dasharray:5 4
