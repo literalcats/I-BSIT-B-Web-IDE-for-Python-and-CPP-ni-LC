@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>I-BSIT-B Code Lab</title>
+  <meta name="description" content="Write and run Python and C++ in your browser. Works offline, saves on your device.">
+  <meta name="theme-color" id="meta-theme-color" content="#242729">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+  <!-- Apply the saved theme BEFORE the page paints, so there is no flash of the wrong colors. -->
+  <script>
+    try {
+      var saved = localStorage.getItem('bsit.theme');
+      document.documentElement.dataset.theme = saved === 'light' ? 'light' : 'dark';
+    } catch (error) {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  </script>
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <noscript>This app needs JavaScript turned on to run your code.</noscript>
+
+  <!-- ===================== TOP BAR ===================== -->
+  <header class="topbar">
+    <button id="btn-files" class="btn only-narrow" type="button" aria-controls="files-panel" aria-expanded="false" aria-label="Show files">☰</button>
+
+    <div class="brand">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#1f2123"/>
+        <path d="M9 10l7 6-7 6" fill="none" stroke="#2ea043" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18 23h6" stroke="#2ea043" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+      <h1><span class="brand__full">I-BSIT-B Code Lab</span><span class="brand__short">Code Lab</span></h1>
+    </div>
+
+    <span id="save-status" class="save-status" role="status" aria-live="polite"></span>
+
+    <div class="topbar__actions">
+      <button id="btn-run" class="btn btn--primary" type="button" aria-label="Run program">▶ Run</button>
+      <button id="btn-stop" class="btn btn--danger" type="button" hidden>■ Stop</button>
+
+      <div class="menu-wrap">
+        <button id="btn-presets" class="btn" type="button" aria-expanded="false" aria-controls="menu-presets" aria-label="Presets">
+          <span aria-hidden="true">✦</span><span class="btn__label btn__label--wide">Presets ▾</span>
+        </button>
+        <div id="menu-presets" class="menu" hidden></div>
+      </div>
+
+      <button id="btn-cheat" class="btn" type="button" aria-expanded="false" aria-controls="cheat-panel" aria-label="Cheat sheet">
+        <span aria-hidden="true">?</span><span class="btn__label btn__label--wide">Cheat sheet</span>
+      </button>
+
+      <button id="btn-theme" class="btn" type="button" aria-label="Switch theme">
+        <span id="theme-icon" aria-hidden="true">☀</span><span id="theme-label" class="btn__label btn__label--wide">Light mode</span>
+      </button>
+
+      <button id="btn-install" class="btn btn--install" type="button" aria-label="Install app">
+        <span aria-hidden="true">⬇</span><span class="btn__label btn__label--wide">Install app</span>
+      </button>
+
+      <div class="menu-wrap">
+        <button id="btn-more" class="btn" type="button" aria-expanded="false" aria-controls="menu-more" aria-label="More options">⋮</button>
+        <div id="menu-more" class="menu" hidden>
+          <button id="mi-storage" class="menu__item" type="button">How saving and offline work</button>
+          <button id="mi-backup" class="menu__item" type="button">Back up all files<span class="menu__hint">Downloads one .json file</span></button>
+          <button id="mi-restore" class="menu__item" type="button">Restore from a backup<span class="menu__hint">Adds files; never deletes yours</span></button>
+          <button id="mi-editor" class="menu__item" type="button">Use the simple editor</button>
+          <button id="mi-about" class="menu__item" type="button">Tips and limits</button>
+        </div>
+      </div>
+      <input id="restore-input" type="file" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <!-- ===================== MAIN AREA ===================== -->
+  <div class="app">
+
+    <!-- Files -->
+    <aside id="files-panel" class="panel panel--files" aria-label="Files">
+      <div class="panel__head">
+        <h2>Files</h2>
+        <button id="btn-new-file" class="btn btn--small btn--primary" type="button">+ New file</button>
+      </div>
+      <div class="panel__scroll">
+        <ul id="file-list" class="file-list"></ul>
+      </div>
+      <div class="panel__foot">
+        <p id="storage-note">Saved on this device in your browser (IndexedDB). Nothing is uploaded.</p>
+        <p id="offline-chip">Offline: checking…</p>
+        <button id="btn-storage-info" class="btn btn--small" type="button">How saving and offline work</button>
+      </div>
+    </aside>
+
+    <!-- Editor + console -->
+    <main id="main" class="workspace">
+      <section class="editor-pane" aria-label="Editor">
+        <div class="pane-head">
+          <span id="file-badge" class="chip chip--lvl2"></span>
+          <strong id="file-title" class="pane-head__title"></strong>
+          <button id="btn-rename" class="btn btn--small" type="button">Rename</button>
+          <button id="btn-download" class="btn btn--small" type="button">Download</button>
+          <button id="btn-delete" class="btn btn--small" type="button">Delete</button>
+        </div>
+        <div id="editor-container" class="editor-host"></div>
+      </section>
+
+      <section class="console-pane" aria-label="Output and input">
+        <div class="tabs" role="tablist" aria-label="Console">
+          <button id="tab-output" class="tab" type="button" role="tab" aria-selected="true" aria-controls="output">Output</button>
+          <button id="tab-input" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-input">Input</button>
+          <span class="tabs__spacer"></span>
+          <span id="engine-status" class="hint" role="status"></span>
+          <button id="btn-clear" class="btn btn--small btn--ghost" type="button">Clear</button>
+        </div>
+        <div class="console-body">
+          <pre id="output" class="output" role="tabpanel" aria-labelledby="tab-output" aria-live="polite" tabindex="0"></pre>
+          <div id="panel-input" class="input-box" role="tabpanel" aria-labelledby="tab-input" hidden>
+            <label for="stdin">Program input (one line for each input() or cin the program uses)</label>
+            <textarea id="stdin" class="code" spellcheck="false" autocomplete="off" placeholder="Type the answers your program will ask for, one per line."></textarea>
+            <p id="stdin-hint" class="hint">Your program reads these lines when it runs. If it asks for more lines than you typed, it stops with an error.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Cheat sheet -->
+    <aside id="cheat-panel" class="panel panel--cheat" aria-label="Cheat sheet">
+      <div class="panel__head">
+        <h2>Cheat sheet</h2>
+        <button id="btn-cheat-close" class="btn btn--small btn--ghost" type="button" aria-label="Close cheat sheet">✕</button>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Cheat sheet language">
+        <button class="tab" type="button" role="tab" data-lang="python" aria-selected="true">Python</button>
+        <button class="tab" type="button" role="tab" data-lang="cpp" aria-selected="false">C++</button>
+      </div>
+      <div class="cheat-controls">
+        <input id="cheat-search" type="search" placeholder="Search topics, e.g. loop" aria-label="Search topics" autocomplete="off">
+        <div class="cheat-controls__row">
+          <select id="filter-level" aria-label="Filter by difficulty">
+            <option value="all">All levels</option>
+            <option value="1">1 · Easiest</option>
+            <option value="2">2 · Easy</option>
+            <option value="3">3 · Medium</option>
+            <option value="4">4 · Hardest</option>
+          </select>
+          <select id="filter-importance" aria-label="Filter by importance">
+            <option value="all">All topics</option>
+            <option value="must">Must-know only</option>
+            <option value="good">Good to know</option>
+            <option value="nice">Nice to have</option>
+          </select>
+        </div>
+      </div>
+      <div id="cheat-list" class="panel__scroll"></div>
+    </aside>
+  </div>
+
+  <div id="scrim" class="scrim" hidden></div>
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+  <!-- ===================== DIALOGS ===================== -->
+  <dialog id="dlg-file" aria-labelledby="dlg-file-title">
+    <form id="form-file" class="dialog__form" novalidate>
+      <h2 id="dlg-file-title">New file</h2>
+      <div id="field-language">
+        <label for="file-language">Language</label>
+        <select id="file-language">
+          <option value="python">Python (.py)</option>
+          <option value="cpp">C++ (.cpp)</option>
+        </select>
+      </div>
+      <div>
+        <label for="file-name">File name</label>
+        <input id="file-name" type="text" maxlength="60" autocomplete="off" spellcheck="false">
+        <p id="file-name-ext" class="hint"></p>
+        <p id="file-name-error" class="field-error" role="alert"></p>
+      </div>
+      <div class="dialog__actions">
+        <button id="file-cancel" class="btn" type="button">Cancel</button>
+        <button id="file-submit" class="btn btn--primary" type="submit">Create file</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-confirm" aria-labelledby="confirm-title">
+    <form class="dialog__form" method="dialog">
+      <h2 id="confirm-title">Are you sure?</h2>
+      <p id="confirm-message"></p>
+      <div class="dialog__actions">
+        <button id="confirm-cancel" class="btn" type="button">Cancel</button>
+        <button id="confirm-ok" class="btn btn--danger" type="button">Delete</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-storage" aria-labelledby="storage-title">
+    <div class="dialog__form">
+      <h2 id="storage-title">How saving and offline work</h2>
+      <p><strong>Your files are saved in this browser, on this device</strong>, using IndexedDB. Nothing is sent to a server, and closing the tab or losing Wi-Fi does not delete anything.</p>
+      <ul>
+        <li>They stay until you clear this site's data, use a private or incognito window, or remove the browser.</li>
+        <li>Another browser or another device has its own, separate files. Use <em>Back up all files</em> (More menu) to move them.</li>
+        <li id="storage-persist-text">Checking whether your browser protects this data…</li>
+      </ul>
+      <h2>Offline use</h2>
+      <p id="offline-detail">Checking…</p>
+      <progress id="offline-progress" class="progress" max="100" value="0" hidden></progress>
+      <div class="dialog__actions">
+        <button id="btn-offline-download" class="btn btn--primary" type="button">Download offline files</button>
+        <button id="storage-close" class="btn" type="button">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-install" aria-labelledby="install-title">
+    <div class="dialog__form">
+      <h2 id="install-title">Install Code Lab</h2>
+      <p id="install-intro">Installing adds Code Lab to your home screen or desktop, so it opens like an app and works offline.</p>
+      <ul id="install-steps"></ul>
+      <div class="dialog__actions">
+        <button id="install-close" class="btn btn--primary" type="button">Got it</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-about" aria-labelledby="about-title">
+    <div class="dialog__form">
+      <h2 id="about-title">Tips and limits</h2>
+      <ul>
+        <li><strong>Run:</strong> Ctrl+Enter (Cmd+Enter on Mac). <strong>Save now:</strong> Ctrl+S. Saving also happens automatically.</li>
+        <li><strong>Input:</strong> programs that ask questions (input() or cin) read their answers from the Input tab, one per line.</li>
+        <li><strong>Python 3.12</strong> runs with Pyodide 0.26.4: the standard library works (math, random, datetime...). Extra packages and turtle or tkinter do not.</li>
+        <li><strong>C++</strong> runs with JSCPP 2.0.9, a small interpreter for beginner C++ (it is not a full compiler and has no C++ version number; it follows the basics of old-style C++98). It handles variables, loops, functions, arrays, pointers and cin/cout. std::string, references (&), struct, classes, vectors, new/delete, templates, exceptions and file handling do not run here; use a real compiler such as g++ for those. The cheat sheet tags each topic.</li>
+        <li><strong>Stuck in a loop?</strong> Press Stop. Programs also stop by themselves after 15 seconds.</li>
+      </ul>
+      <p>Built with Pyodide (MPL-2.0), Monaco Editor (MIT) and JSCPP (MIT).</p>
+      <div class="dialog__actions">
+        <button id="about-close" class="btn btn--primary" type="button">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
