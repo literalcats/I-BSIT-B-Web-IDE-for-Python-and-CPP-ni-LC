@@ -1,0 +1,29 @@
+{
+  "groups": ["Start here", "Loops", "ASCII art", "Functions", "Mini programs"],
+  "presets": [
+    { "id": "hello_world", "group": "Start here", "title": "Hello, World!", "description": "Your first program." },
+    { "id": "variables", "group": "Start here", "title": "Variables and types", "description": "Store and show values." },
+    { "id": "user_input", "group": "Start here", "title": "Ask the user", "description": "Read answers typed in the Input tab.", "stdin": { "python": "Ana\n2008\n", "cpp": "2008\n2026\n" } },
+    { "id": "calculator", "group": "Start here", "title": "Simple calculator", "description": "Two numbers and an operator.", "stdin": { "python": "8\n/\n2\n", "cpp": "8 / 2\n" } },
+
+    { "id": "times_table", "group": "Loops", "title": "Multiplication table", "description": "A for loop.", "stdin": { "python": "7\n", "cpp": "7\n" } },
+    { "id": "while_sum", "group": "Loops", "title": "Add until 0", "description": "A while loop.", "stdin": { "python": "5\n10\n3\n0\n", "cpp": "5\n10\n3\n0\n" } },
+    { "id": "fizzbuzz", "group": "Loops", "title": "FizzBuzz", "description": "A famous practice problem." },
+
+    { "id": "ascii_triangles", "group": "ASCII art", "title": "Triangles", "description": "Right triangle and pyramid.", "stdin": { "python": "5\n", "cpp": "5\n" } },
+    { "id": "ascii_diamond", "group": "ASCII art", "title": "Diamond", "description": "Two pyramids put together.", "stdin": { "python": "4\n", "cpp": "4\n" } },
+    { "id": "ascii_box", "group": "ASCII art", "title": "Box", "description": "A rectangle with a border.", "stdin": { "python": "12\n5\n", "cpp": "12 5\n" } },
+    { "id": "ascii_checkerboard", "group": "ASCII art", "title": "Checkerboard", "description": "Alternating squares." },
+
+    { "id": "functions", "group": "Functions", "title": "Functions", "description": "Name a block of code and reuse it." },
+    { "id": "recursion", "group": "Functions", "title": "Recursion", "description": "Factorial and Fibonacci." },
+    { "id": "prime_checker", "group": "Functions", "title": "Prime checker", "description": "A function that answers yes or no.", "stdin": { "python": "29\n", "cpp": "29\n" } },
+
+    { "id": "age_calculator", "group": "Mini programs", "title": "Age calculator", "description": "Age from a birth year.", "stdin": { "python": "2008\n", "cpp": "2008 2026\n" } },
+    { "id": "electricity_bill", "group": "Mini programs", "title": "Electricity bill", "description": "Tiered rates (made-up numbers).", "stdin": { "python": "150\n", "cpp": "150\n" } },
+    { "id": "grade_boundaries", "group": "Mini programs", "title": "Grade boundaries", "description": "Score to letter grade.", "stdin": { "python": "86\n", "cpp": "86\n" } },
+    { "id": "largest_of_three", "group": "Mini programs", "title": "Largest of three", "description": "Compare three numbers.", "stdin": { "python": "12\n45\n30\n", "cpp": "12 45 30\n" } },
+    { "id": "secret_number", "group": "Mini programs", "title": "Secret number game", "description": "Guess it in 5 tries.", "stdin": { "python": "3\n9\n7\n5\n5\n", "cpp": "3 9 7\n" } },
+    { "id": "bubble_sort", "group": "Mini programs", "title": "Bubble sort", "description": "Sort by swapping neighbours." }
+  ]
+}
