@@ -1,4 +1,5 @@
 https://i-bsit-b-web-ide-for-python-and-cpp.vercel.app/
+> **AI disclosure:** Written with Claude (Anthropic). Carl Ianne directed the design
 # I-BSIT-B Code Lab
 
 An offline-capable code editor for **Python** and **C++**, made for I-BSIT-B. It runs in the browser, saves students' files on their own device, and installs like an app (PWA).
