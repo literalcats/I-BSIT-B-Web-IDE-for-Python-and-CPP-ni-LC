@@ -1,6 +1,6 @@
 https://i-bsit-b-web-ide-for-python-and-cpp.vercel.app/
 > **AI disclosure:** Written with Claude (Anthropic). Carl Ianne directed the design
-> made the decisions, and tested the result. See [docs/GUIDE.md](docs/GUIDE.md)
+> made the decisions, and tested the result. See [/docs](/docs)
 > for how it was built and what has and has not been tested.
 
 # I-BSIT-B Code Lab
